@@ -104,6 +104,10 @@ li {
   align-items: center;
 }
 
+.box-intro{
+  text-align: center;
+}
+
 .box-header{
   font-size: var(--fs-xl);
   font-weight: normal;
