@@ -9,7 +9,7 @@ function Instructions (){
       <div className="box-wrapper">
         <div className="box">
           <div className="box-content">
-            <h1 className="box-header">Githib users</h1>
+            <h1 className="box-header">Github users</h1>
             <FaUserFriends className="box-icon" color="ffc072" size={88}/>
           </div>
         </div>
