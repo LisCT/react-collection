@@ -1,6 +1,8 @@
 import React from "react";
-import { FaUserFriends, FaFighterJet, FaTrophy } from 'react-icons/fa';
+import { FaUserFriends, FaFighterJet, FaTrophy, FaTimesCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
+
+import Result from "./Result";
 
 function Instructions (){
   return(
@@ -87,16 +89,44 @@ PlayerInput.propTypes = {
   label: PropTypes.string.isRequired
 }
 
+function PlayerPreview ({username, onReset,label} ){
+  return(
+    <div>
+      <h3>{label}</h3>
+      <div>
+        <img
+          src={`https://github.com/${username}.png?size=200` }
+          alt={`avatar for ${username}`}
+        />
+        <a href="https://github.com/${username}">
+          {username}
+        </a>
+      </div>
+      <button onClick={onReset}>
+        <FaTimesCircle color='rgb(194,57,42' size={26}/>
+      </button>
+    </div>
+  )
+}
+
+PlayerPreview.prototype = {
+  username: PropTypes.string.isRequired,
+  onReset: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired
+}
 export default class Battle extends React.Component{
   constructor(props){
     super(props);
 
     this.state = {
       playerOne: null,
-      playerTwo: null
+      playerTwo: null,
+      battle: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleReset = this.handleReset.bind(this)
+    this.handleBattle = this.handleBattle.bind(this)
   }
 
   handleSubmit(id, player){
@@ -105,26 +135,62 @@ export default class Battle extends React.Component{
     })
   }
 
+  handleReset(id){
+    this.setState({
+      [id]: null
+    })
+  }
+
+  handleBattle(){
+    this.setState({
+      battle: true
+    })
+  }
+
   render(){
 
-    const { playerOne, playerTwo } = this.state;
+    const { playerOne, playerTwo, battle } = this.state;
+
+    if(battle){
+      return <Result playerOne={playerOne} playerTwo={playerTwo}/>
+    }
 
     return(
 
       <React.Fragment>
         <Instructions/>
-        {playerOne === null &&
-          <PlayerInput
-            label="Player One"
-            onSubmit={(player) => this.handleSubmit('playerOne', player)}
-          />
+        {playerOne === null
+          ?
+            <PlayerInput
+              label="Player One"
+              onSubmit={(player) => this.handleSubmit('playerOne', player)}
+            />
+          : <PlayerPreview
+              username={playerOne}
+              label="Player One"
+              onReset={ () => this.handleReset("playerOne")}
+            />
         }
-        {playerTwo === null &&
-          <PlayerInput
-            label="Player Two"
-            onSubmit={(player) => this.handleSubmit('playerTwo', player)}
-          />
+        {playerTwo === null
+          ?
+            <PlayerInput
+              label="Player Two"
+              onSubmit={(player) => this.handleSubmit('playerTwo', player)}
+            />
+          : <PlayerPreview
+              username={playerTwo}
+              label="Player Two"
+              onReset={ () => this.handleReset("playerTwo")}
+            />
         }
+
+        {playerOne && playerTwo && (
+          <button
+            onClick={this.handleBattle}
+          >
+            Battle
+          </button>
+        )}
       </React.Fragment>
 
     )

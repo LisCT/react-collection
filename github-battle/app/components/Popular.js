@@ -4,7 +4,7 @@ import { fetchPopularApi } from '.././utils/api';
 import { FaUserAlt, FaStar, FaCodeBranch, FaExclamationTriangle } from 'react-icons/fa';
 
 function LanguagesNav ({ selected, onUpdateLanguage }) {
-  const languages = ["all", "JavaScript", "Ruby", "Java", "CSS", "Phyton"];
+  const languages = ["all", "JavaScript", "Ruby", "Java", "CSS", "Python"];
 
   return(
     <ul className="filter flex-center">
@@ -130,7 +130,7 @@ export default class Popular extends React.Component {
           onUpdateLanguage={ this.updatedLanguage }
         />
 
-        { this.isLoading() && <p>Loding...</p>}
+        { this.isLoading() && <p>Loading...</p>}
 
         { error && <p>{error}</p>}
 
