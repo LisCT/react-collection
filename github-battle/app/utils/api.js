@@ -15,7 +15,7 @@ function getProfile (username) {
     .then((res) => res.json())
     .then((profile) => {
       if (profile.message) {
-        throw new Error(getErrorMsg(profile.message, username))
+        throw new Error(handleErrors(profile.message, username))
       }
 
       return profile
@@ -27,7 +27,7 @@ function getRepos (username) {
     .then((res) => res.json())
     .then((repos) => {
       if (repos.message) {
-        throw new Error(getErrorMsg(repos.message, username))
+        throw new Error(handleErrors(repos.message, username))
       }
 
       return repos
